@@ -11,6 +11,7 @@ const {
   destroy,
   getByUsers_ID,
   pagination,
+  getUsersWithRecipes,
 } = require("../controller/user.controller");
 const { isAdmin, isCustomer } = require("../middleware/auth");
 const { hitbyID } = require("../middleware/hitByRedis");
@@ -29,6 +30,9 @@ router
   // get data
   // .get("/users", auth, isAdmin, list)
   .get("/users", list)
+
+  //get users & recipes
+  .get("/users/recipes/:users_id", getUsersWithRecipes)
 
   //insert data (register)
   .post("/insertuser", upload, insert)

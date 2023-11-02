@@ -89,6 +89,17 @@ const userController = {
       });
   },
 
+  getUsersWithRecipes: async (req, res) => {
+    try {
+      const users_id = req.params.users_id;
+      const usersWithRecipes = await userModel.selectUsersWithRecipes(users_id);
+      res.status(200).json(usersWithRecipes);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({message: "interval server error"});
+    }
+  },
+
   register: async (req, res) => {
     try {
       const {

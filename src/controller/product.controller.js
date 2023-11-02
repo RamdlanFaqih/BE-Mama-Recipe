@@ -1,6 +1,5 @@
 const productModel = require("../model/product.model");
 const cloudinary = require("../helper/cloudinary");
-const redis = require("../config/redis");
 
 const productController = {
   list: (req, res) => {
