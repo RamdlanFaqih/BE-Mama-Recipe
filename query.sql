@@ -20,6 +20,16 @@ CREATE TABLE recipes (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE my_recipes (
+  recipes_id SERIAL PRIMARY KEY,
+  food_name VARCHAR(255) NOT NULL,
+  image TEXT,
+  ingredients TEXT NOT NULL,
+  video_title VARCHAR(255),
+  video TEXT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  users_id INT NOT NULL
+);
 CREATE TABLE user_recipes (
     user_recipes_id SERIAL PRIMARY KEY,
     users_id INT NOT NULL,
