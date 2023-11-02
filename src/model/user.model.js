@@ -49,6 +49,26 @@ const userModel = {
     });
   },
 
+  selectUsersWithRecipes: (users_id) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT users.users_id, users.name AS user_name, users.image AS user_image, 
+        my_recipes.recipes_id, my_recipes.food_name, my_recipes.image AS recipe_image 
+        FROM users 
+        LEFT JOIN my_recipes ON users.users_id = my_recipes.users_id 
+        WHERE users.users_id = ${users_id}`,
+        (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        }
+      );
+    });
+  },
+  
+
+
   insertData: ({
     name,
     email_address,
@@ -129,6 +149,7 @@ const userModel = {
       );
     });
   },
+
 
   updateProfilePicture: ({
     users_id,
