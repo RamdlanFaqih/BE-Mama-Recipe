@@ -1,16 +1,20 @@
 const express = require("express");
+const helmet = require("helmet");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRouter = require("./src/router/user.router");
 const productRouter = require("./src/router/product.router");
+const recipesRouter = require("./src/router/recipes.router");
 const port = 3005;
 
 app.use(cors());
+app.use(helmet());
 app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(userRouter);
 app.use(productRouter);
+app.use(recipesRouter);
 
 
 app.listen(port, () => {
