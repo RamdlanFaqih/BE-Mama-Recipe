@@ -94,7 +94,7 @@ This comprehensive documentation outlines the backend development of the Mama Re
 6. Run the server: `node server.js`
 
 **Related Project**
-- [Mama Recipe Frontend](https://github.com/RamdlanFaqih/BE-Mama-Recipe) - Frontend for Mama Recipe
+- [Mama Recipe Frontend](https://github.com/RamdlanFaqih/mama-recipe-redux) - Frontend for Mama Recipe
 
 
 **Contributing**
