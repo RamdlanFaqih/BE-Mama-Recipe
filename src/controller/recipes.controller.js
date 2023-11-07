@@ -20,15 +20,12 @@ const productController = {
     const limitValue = limit ? Number(limit) : 2;
     const offsetVallue = pageValue === 1 ? 0 : (pageValue - 1) * limitValue;
 
-    //total page
     const allData = await recipesModel.selectPaginate();
-    // console.log(allData);
     const totalData = Number(allData.rows[0].total);
 
     recipesModel
       .pagination(limitValue, offsetVallue)
       .then((result) => {
-        // console.log(result);
         const pagination = {
           currentPage: pageValue,
           dataperPage: limitValue,
