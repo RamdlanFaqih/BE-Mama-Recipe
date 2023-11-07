@@ -93,6 +93,10 @@ This comprehensive documentation outlines the backend development of the Mama Re
 5. Set up your PostgreSQL database connection in `config/database.js`.
 6. Run the server: `node server.js`
 
+**Related Project**
+- [Mama Recipe Frontend](https://github.com/RamdlanFaqih/BE-Mama-Recipe) - Frontend for Mama Recipe
+
+
 **Contributing**
 
 We welcome contributions from the community. If you encounter bugs or wish to add new features, please create a pull request or issue in this repository. Your assistance is invaluable in enhancing the Mama Recipe backend.
