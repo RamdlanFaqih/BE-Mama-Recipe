@@ -1,16 +1,15 @@
 const db = require("../config/db");
 
 const userModel = {
-  selectAll: (search, sort) => {
+  selectAll: (search, sort, limit, offset) => {
     let sortDirection = sort === "DESC" ? "DESC" : "ASC";
-    return db.query(
-      `
-        SELECT * FROM users 
-        WHERE users.name LIKE $1
-        ORDER BY users.name ${sortDirection}
-    `,
-      [`%${search}%`]
-    );
+    const queryString = `
+      SELECT * FROM users 
+      WHERE users.name LIKE '%${search}%'
+      ORDER BY users.name ${sortDirection}
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+    return db.query(queryString);
   },
 
   selectPaginate: () => {
@@ -40,12 +39,15 @@ const userModel = {
 
   selectByUsers_ID: (users_id) => {
     return new Promise((resolve, reject) => {
-      db.query(`SELECT * FROM users WHERE users_id = ${users_id}`, (err, result) => {
-        if (err) {
-          reject(err);
+      db.query(
+        `SELECT * FROM users WHERE users_id = ${users_id}`,
+        (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
         }
-        resolve(result);
-      });
+      );
     });
   },
 
@@ -66,8 +68,6 @@ const userModel = {
       );
     });
   },
-  
-
 
   insertData: ({
     name,
@@ -75,7 +75,7 @@ const userModel = {
     phone_number,
     password,
     level,
-    image
+    image,
   }) => {
     return new Promise((resolve, reject) => {
       db.query(
@@ -90,13 +90,7 @@ const userModel = {
       );
     });
   },
-  registerData: ({
-    name,
-    email_address,
-    phone_number,
-    password,
-    level
-  }) => {
+  registerData: ({ name, email_address, phone_number, password, level }) => {
     return new Promise((resolve, reject) => {
       db.query(
         `INSERT INTO users(name, email_address, phone_number, password, level) VALUES
@@ -117,7 +111,7 @@ const userModel = {
     phone_number,
     password,
     level,
-    image
+    image,
   }) => {
     return new Promise((resolve, reject) => {
       db.query(
@@ -132,11 +126,7 @@ const userModel = {
     });
   },
 
-  updateProfile: ({
-    users_id,
-    name,
-    image
-  }) => {
+  updateProfile: ({ users_id, name, image }) => {
     return new Promise((resolve, reject) => {
       db.query(
         `UPDATE users SET name='${name}', image = '${image}' WHERE users_id=${users_id}`,
@@ -150,11 +140,7 @@ const userModel = {
     });
   },
 
-
-  updateProfilePicture: ({
-    users_id,
-    image
-  }) => {
+  updateProfilePicture: ({ users_id, image }) => {
     return new Promise((resolve, reject) => {
       db.query(
         `UPDATE users SET image = '${image}' WHERE users_id=${users_id}`,
@@ -167,7 +153,7 @@ const userModel = {
       );
     });
   },
-  
+
   destroyData: (users_id) => {
     return new Promise((resolve, reject) => {
       db.query(`DELETE FROM users WHERE users_id=${users_id}`, (err, res) => {

@@ -30,17 +30,24 @@ CREATE TABLE my_recipes (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   users_id INT NOT NULL
 );
-CREATE TABLE user_recipes (
-    user_recipes_id SERIAL PRIMARY KEY,
-    users_id INT NOT NULL,
-    recipes_id INT NOT NULL,
-)
+
+CREATE TABLE food_recipes (
+  recipes_id SERIAL PRIMARY KEY,
+  food_name VARCHAR(255) NOT NULL,
+  image TEXT,
+  ingredients TEXT NOT NULL,
+  video_title VARCHAR(255),
+  video TEXT NULL,
+  food_category VARCHAR(255) NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  users_id INT NOT NULL
+);
 
 CREATE TABLE liked_recipes (
     liked_recipes_id SERIAL PRIMARY KEY,
     users_id INT NOT NULL,
-    recipes_id INT NOT NULL,
-)
+    recipes_id INT NOT NULL
+);
 
 CREATE TABLE saved_recipes (
     saved_recipes_id SERIAL PRIMARY KEY,

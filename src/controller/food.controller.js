@@ -1,59 +1,29 @@
-const recipesModel = require("../model/recipes.model");
+const foodModel = require("../model/food.model");
 const cloudinary = require("../helper/cloudinary");
 
-const recipeController = {
+const foodController = {
   list: (req, res) => {
     let search = req.query.search || "";
     let sort = req.query.sort || "ASC";
-
-    const { limit, page } = req.query;
-    const pageValue = page ? Number(page) : 1;
-    const limitValue = limit ? Number(limit) : 6;
-    const offsetValue = pageValue === 1 ? 0 : (pageValue - 1) * limitValue;
-
-    recipesModel
-      .selectPaginate()
-      .then((allData) => {
-        console.log(allData);
-        const totalData = Number(allData.rows[0].total);
-
-        recipesModel
-          .selectAll(search, sort, limitValue, offsetValue)
-          .then((result) => {
-            const selectAll = {
-              currentPage: pageValue,
-              dataPerPage: limitValue,
-              totalPage: Math.ceil(totalData / limitValue),
-              totalData,
-              result,
-            };
-            console.log(allData);
-            console.log(limitValue);
-            res.json({
-              message: "ok",
-              result: selectAll,
-            });
-          })
-          .catch((err) => {
-            res.json({ message: err.message });
-          });
+    foodModel
+      .selectAll(search, sort)
+      .then((result) => {
+        res.json({ message: result });
       })
       .catch((err) => {
         res.json({ message: err.message });
       });
   },
-
   pagination: async (req, res) => {
     const { limit, page } = req.query;
     const pageValue = page ? Number(page) : 1;
     const limitValue = limit ? Number(limit) : 2;
     const offsetVallue = pageValue === 1 ? 0 : (pageValue - 1) * limitValue;
 
-    const allData = await recipesModel.selectPaginate();
+    const allData = await foodModel.selectPaginate();
     const totalData = Number(allData.rows[0].total);
-    
 
-    recipesModel
+    foodModel
       .pagination(limitValue, offsetVallue)
       .then((result) => {
         const pagination = {
@@ -65,8 +35,7 @@ const recipeController = {
         };
         console.log(allData);
         console.log(limitValue);
-
-        res.data.json({
+        res.json({
           message: "OK",
           result: pagination,
         });
@@ -78,7 +47,7 @@ const recipeController = {
 
   getByRecipes_ID: (req, res) => {
     const recipes_id = req.params.recipes_id;
-    recipesModel
+    foodModel
       .selectByRecipes_ID(recipes_id)
       .then((result) => {
         res.send({
@@ -92,7 +61,7 @@ const recipeController = {
 
   getRecipesByUsers_id: (req, res) => {
     const users_id = req.params.users_id;
-    recipesModel
+    foodModel
       .selectRecipesByUsers_ID(users_id)
       .then((result) => {
         res.send({
@@ -108,7 +77,7 @@ const recipeController = {
       const { food_name, ingredients, video_title, video, users_id } = req.body;
       const image = await cloudinary.uploader.upload(req.file.path);
       const imageUrl = image.url;
-      recipesModel
+      foodModel
         .insertData(
           food_name,
           imageUrl,
@@ -135,11 +104,43 @@ const recipeController = {
     }
   },
 
+  insertRecipes: async (req, res) => {
+    try {
+      const { food_name, ingredients, video_title, video, food_category, users_id } = req.body;
+      const image = await cloudinary.uploader.upload(req.file.path);
+      const imageUrl = image.url;
+      foodModel
+        .insertWithCategory(
+          food_name,
+          imageUrl,
+          ingredients,
+          video_title,
+          video,
+          food_category,
+          users_id
+        )
+        .then((result) => {
+          res.json({
+            data: result,
+            message: "data berhasil ditambahkan",
+          });
+        })
+        .catch((err) => {
+          res.json({
+            message: err.message,
+          });
+        });
+    } catch (err) {
+      res.json({
+        message: err.message,
+      });
+    }
+  },
   update: async (req, res) => {
     try {
       const recipes_id = req.params.recipes_id;
 
-      const oldData = await recipesModel.selectByRecipes_ID(recipes_id);
+      const oldData = await foodModel.selectByRecipes_ID(recipes_id);
 
       if (!oldData) {
         return res.json({ message: "data tidak ada" });
@@ -160,7 +161,7 @@ const recipeController = {
         image: image ? image.url : undefined,
       };
 
-      await recipesModel
+      await foodModel
         .updateData(data)
         .then((result) => {
           res.json({
@@ -182,7 +183,7 @@ const recipeController = {
 
   destroy: (req, res) => {
     const recipes_id = req.params.recipes_id;
-    recipesModel
+    foodModel
       .destroyData(recipes_id)
       .then((result) => {
         res.json({
@@ -198,4 +199,4 @@ const recipeController = {
   },
 };
 
-module.exports = recipeController;
+module.exports = foodController;
