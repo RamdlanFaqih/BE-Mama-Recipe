@@ -14,7 +14,7 @@ const {
   getUsersWithRecipes,
 } = require("../controller/user.controller");
 const { isAdmin, isCustomer } = require("../middleware/auth");
-const { hitbyID } = require("../middleware/hitByRedis");
+// const { hitbyID } = require("../middleware/hitByRedis");
 const auth = require("../middleware/staticAuth");
 const upload = require("../middleware/upload");
 

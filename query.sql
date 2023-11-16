@@ -53,7 +53,7 @@ CREATE TABLE saved_recipes (
     saved_recipes_id SERIAL PRIMARY KEY,
     users_id INT NOT NULL,
     recipes_id INT NOT NULL,
-)
+);
 
 INSERT INTO users (name, email_address, password, level)
 VALUES ('Nama Pengguna', 'email@contoh.com', 'passwordKu', 1);
