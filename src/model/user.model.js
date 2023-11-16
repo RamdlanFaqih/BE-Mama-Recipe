@@ -1,16 +1,26 @@
 const db = require("../config/db");
 
 const userModel = {
-  selectAll: (search, sort, limit, offset) => {
+  selectAll: (search, sort) => {
     let sortDirection = sort === "DESC" ? "DESC" : "ASC";
-    const queryString = `
-      SELECT * FROM users 
-      WHERE users.name LIKE '%${search}%'
-      ORDER BY users.name ${sortDirection}
-      LIMIT ${limit} OFFSET ${offset}
-    `;
-    return db.query(queryString);
-  },
+    let cleanSearch = search.replace(/[^a-zA-Z0-9 ]/g, " ").trim();
+    let searchTerm = `%${cleanSearch}%`;
+
+    return new Promise ((resolve, reject) => {
+      db.query(
+        `SELECT * FROM users
+        WHERE LOWER(users.name) ILIKE '${searchTerm}'
+        ORDER BY users.name ${sortDirection}`,
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        }
+      );
+    });
+},
+
 
   selectPaginate: () => {
     return new Promise((resolve, reject) => {

@@ -1,7 +1,6 @@
 const userModel = require("../model/user.model");
 const { generateToken } = require("../helper/jwt");
 const bcrypt = require("bcrypt");
-const redis = require("../config/redis");
 const cloudinary = require("../helper/cloudinary");
 
 const userController = {
@@ -52,28 +51,28 @@ const userController = {
       });
   },
 
-  getByRedisId: (req, res) => {
-    const id = req.params.id;
-    userModel
-      .selectByID(id)
-      .then((result) => {
-        const dataRedis = redis.set(
-          `getFromRedis/${id}`,
-          JSON.stringify(result),
-          {
-            EX: 180,
-            NX: true,
-          }
-        );
-        res.send({
-          fromCache: false,
-          data: dataRedis,
-        });
-      })
-      .catch((err) => {
-        res.json({ message: err.message });
-      });
-  },
+  // getByRedisId: (req, res) => {
+  //   const id = req.params.id;
+  //   userModel
+  //     .selectByID(id)
+  //     .then((result) => {
+  //       const dataRedis = redis.set(
+  //         `getFromRedis/${id}`,
+  //         JSON.stringify(result),
+  //         {
+  //           EX: 180,
+  //           NX: true,
+  //         }
+  //       );
+  //       res.send({
+  //         fromCache: false,
+  //         data: dataRedis,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       res.json({ message: err.message });
+  //     });
+  // },
 
   getByUsers_ID: (req, res) => {
     const users_id = req.params.users_id;
