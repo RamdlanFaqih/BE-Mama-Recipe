@@ -37,7 +37,7 @@ const upload = (req, res, next) => {
     multerSingle (req, res, (err) => {
         if (err) {
             res.json({
-                message: "error when upload file"
+                message: err.message
             });
         }
         else {
