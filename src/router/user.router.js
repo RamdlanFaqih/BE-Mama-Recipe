@@ -22,32 +22,32 @@ router
   // get with redis
   // .get("/getFromRedis/:id", hitbyID, getById)
 
-  .get("users/:users_id", getByUsers_ID)
+  .get("/users/:users_id", getByUsers_ID)
 
   // pagination
-  .get("paginate", pagination)
+  .get("/paginate", pagination)
 
   // get data
   // .get("/users", auth, isAdmin, list)
-  .get("users", list)
+  .get("/users", list)
 
   //get users & recipes
-  .get("users/recipes/:users_id", getUsersWithRecipes)
+  .get("/users/recipes/:users_id", getUsersWithRecipes)
 
   //insert data (register)
-  .post("insertuser", upload, insert)
-  .post("register", register)
+  .post("/insertuser", upload, insert)
+  .post("/register", register)
 
   //update data
-  .put("updatedata/:users_id", upload, update)
+  .put("/updatedata/:users_id", upload, update)
 
   //update profile
-  .put("updateProfile/:users_id", upload, updateProfile)
+  .put("/updateProfile/:users_id", upload, updateProfile)
 
   //update profile picture
-  .put("updateProfilePicture/:users_id", upload, updateProfilePicture)
+  .put("/updateProfilePicture/:users_id", upload, updateProfilePicture)
   //login & generate token
-  .post("login", login)
+  .post("/login", login)
 
   //delete data
   .delete("/hapusdata/:users_id", destroy);
