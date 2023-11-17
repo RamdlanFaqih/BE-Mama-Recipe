@@ -39,6 +39,7 @@ const upload = (req, res, next) => {
             console.error("Error when uploading file:", err);
             res.status(500).json({
                 error: "Error when uploading file",
+                details: err.message
             });
         } else {
             next();
