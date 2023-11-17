@@ -42,7 +42,7 @@ router
   .put("/updatedata/:users_id", upload, update)
 
   //update profile
-  .put("/updateProfile/:users_id", upload, updateProfile)
+  .put("updateProfile/:users_id", upload, updateProfile)
 
   //update profile picture
   .put("/updateProfilePicture/:users_id", upload, updateProfilePicture)
