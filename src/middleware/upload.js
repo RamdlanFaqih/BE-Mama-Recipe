@@ -34,16 +34,17 @@ const multerUpload = multer({
 
 const upload = (req, res, next) => {
     const multerSingle = multerUpload.single("image");
-    multerSingle (req, res, (err) => {
+    multerSingle(req, res, (err) => {
         if (err) {
-            res.json({
-                message: "error when upload file"
+            console.error("Error when uploading file:", err);
+            res.status(500).json({
+                error: "Error when uploading file",
             });
-        }
-        else {
+        } else {
             next();
         }
     });
 };
+
 
 module.exports = upload;
