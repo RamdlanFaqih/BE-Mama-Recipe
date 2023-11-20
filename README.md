@@ -102,7 +102,7 @@ This comprehensive documentation outlines the backend development of the Mama Re
 3. Navigate to the project directory: `cd mama-recipe-backend`
 4. Install project dependencies: `npm install`
 5. Set up your PostgreSQL database connection in `config/db.js`.
-6. Run the server: `node server.js`
+6. Run the server: `npm start`
 7. Run API Endpoint
    API Enpoint are available in this postman documentation bellow
    
