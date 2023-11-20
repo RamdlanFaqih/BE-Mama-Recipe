@@ -111,7 +111,7 @@ This comprehensive documentation outlines the backend development of the Mama Re
 
 ## Related Project
 - [Mama Recipe Website](https://github.com/RamdlanFaqih/mama-recipe-redux) - Website for Mama Recipe
-- [Mama Recipe Mobile](https://github.com/RamdlanFaqih/BE-Mama-Recipe) - Mobile Apps for Mama Recipe
+- [Mama Recipe Mobile](https://github.com/RamdlanFaqih/MamaRecipe-Mobile) - Mobile Apps for Mama Recipe
 
 
 **Contributing**
