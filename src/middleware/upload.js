@@ -5,7 +5,7 @@ const path = require("path");
 const multerUpload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, "/tmp");
+            cb(null, "./public");
         },
     limits: {
         fileSize: 5000000 // 1000000 Bytes = 1 MB

@@ -1,9 +1,9 @@
 const db = require("../config/db");
 
-const likedModel = {
+const savedModel = {
   selectAll: () => {
     return new Promise((resolve, reject) => {
-      db.query("SELECT * FROM liked_recipes", (err, res) => {
+      db.query("SELECT * FROM saved_recipes", (err, res) => {
         if (err) {
           reject(err);
         }
@@ -12,10 +12,27 @@ const likedModel = {
     });
   },
 
-  selectByLikedRecipes_ID: (liked_recipes_id) => {
+  selectBySavedRecipes_ID: (saved_recipes_id) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `SELECT * FROM liked_recipes WHERE liked_recipes_id = ${liked_recipes_id}`,
+        `SELECT * FROM saved_recipes WHERE saved_recipes_id = ${saved_recipes_id}`,
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        }
+      );
+    });
+  },
+
+  selectSavedByUsers_ID: (users_id) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT my_recipes.food_name, my_recipes.image, saved_recipes.recipes_id
+         FROM saved_recipes
+         JOIN my_recipes ON saved_recipes.recipes_id = my_recipes.recipes_id
+         WHERE saved_recipes.users_id = ${users_id}`,
         (err, result) => {
           if (err) {
             reject(err);
@@ -26,32 +43,15 @@ const likedModel = {
     });
   },
 
-  selectLikedByUsers_ID: (users_id) => {
+  selectSavedByUsersAndRecipes: (users_id, recipes_id) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `SELECT my_recipes.food_name, my_recipes.image, liked_recipes.recipes_id
-        FROM liked_recipes
-        JOIN my_recipes ON liked_recipes.recipes_id = my_recipes.recipes_id
-        WHERE liked_recipes.users_id = ${users_id}`,
-        (err, result) => {
+        `SELECT * FROM saved_recipes WHERE users_id = ${users_id}, AND reipes_id = ${recipes_id}`,
+        (err, res) => {
           if (err) {
             reject(err);
           }
-          resolve(result);
-        }
-      );
-    });
-  },
-
-  selectLikedByUsersAndRecipes: (users_id, recipes_id) => {
-    return new Promise((resolve, reject) => {
-      db.query(
-        `SELECT * FROM liked_recipes WHERE users_id = ${users_id} AND recipes_id = ${recipes_id}`,
-        (err, result) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(result);
+          resolve(res);
         }
       );
     });
@@ -60,21 +60,8 @@ const likedModel = {
   insertData: (users_id, recipes_id) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `INSERT INTO liked_recipes(users_id, recipes_id) VALUES
-            (${users_id}, ${recipes_id})`,
-        (err, res) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(res);
-        }
-      );
-    });
-  },
-  destroyData: (liked_recipes_id) => {
-    return new Promise((resolve, reject) => {
-      db.query(
-        `DELETE FROM liked_recipes WHERE liked_recipes_id =${liked_recipes_id}`,
+        `INSERT INTO saved_recipes(users_id, recipes_id) VALUES
+                (${users_id}, ${recipes_id})`,
         (err, res) => {
           if (err) {
             reject(err);
@@ -85,10 +72,24 @@ const likedModel = {
     });
   },
 
-  unlikeData: (users_id, recipes_id) => {
+  destroyData: (saved_recipes_id) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `DELETE FROM liked_recipes WHERE users_id = ${users_id} AND recipes_id = ${recipes_id}`,
+        `DELETE FROM saved_recipes WHERE saved_recipes_id =${saved_recipes_id}`,
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        }
+      );
+    });
+  },
+
+  unsavedData: (users_id, recipes_id) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `DELETE FROM saved_recipes WHERE users_id = ${users_id} AND recipes_id = ${recipes_id}`,
         (err, res) => {
           if (err) {
             reject(err);
@@ -100,4 +101,4 @@ const likedModel = {
   },
 };
 
-module.exports = likedModel;
+module.exports = savedModel;

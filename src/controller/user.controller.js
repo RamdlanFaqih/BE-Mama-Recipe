@@ -95,7 +95,7 @@ const userController = {
       res.status(200).json(usersWithRecipes);
     } catch (error) {
       console.log(error);
-      res.status(500).json({message: "interval server error"});
+      res.status(500).json({ message: "interval server error" });
     }
   },
 
@@ -180,36 +180,60 @@ const userController = {
 
   login: (req, res) => {
     const { email_address, password } = req.body;
-    userModel.loginUser(email_address).then((data) => {
-      const userId = data.rows[0].users_id;
-      const userLevel = data.rows[0].level;
-      const userPassword = data.rows[0].password;
-      if (data.rowCount > 0) {
-        bcrypt.compare(password, userPassword).then(async (result) => {
-          console.log(result);
-          if (result) {
-            const token = await generateToken({
-              level: userLevel,
+  
+    // Check if email_address and password are provided
+    if (!email_address || !password) {
+      return res.status(400).json({ message: "Email and password are required." });
+    }
+  
+    userModel
+      .loginUser(email_address)
+      .then((data) => {
+        // Check if data.rows is non-empty
+        if (data.rows.length > 0) {
+          const userId = data.rows[0].users_id;
+          const userLevel = data.rows[0].level;
+          const userPassword = data.rows[0].password;
+  
+          bcrypt
+            .compare(password, userPassword)
+            .then(async (result) => {
+              console.log(result);
+              if (result) {
+                const token = await generateToken({
+                  level: userLevel,
+                });
+                res.json({
+                  message: "LOGIN BERHASIL",
+                  generateToken: token,
+                  userId: userId,
+                  userLevel: userLevel,
+                });
+              } else {
+                res.json({
+                  message: "LOGIN GAGAL",
+                });
+              }
+            })
+            .catch((error) => {
+              console.log("error bcrypt", error);
+              res.status(500).json({ message: "Internal Server Error" });
             });
-            res.json({
-              message: "LOGIN BERHASIL",
-              generateToken: token,
-              userId: userId,
-              userLevel: userLevel,
-            });
-          } else {
-            res.json({
-              message: "LOGIN GAGAL",
-            });
-          }
-        });
-      }
-    });
+        } else {
+          res.json({
+            message: "LOGIN GAGAL",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error login", error);
+        res.status(500).json({ message: "Internal Server Error" });
+      });
   },
-
+  
   update: async (req, res) => {
     try {
-      const users_id = req.params.users_id; 
+      const users_id = req.params.users_id;
 
       const oldData = await userModel.selectByUsers_ID(users_id);
       console.log(oldData.rowCount);
@@ -220,7 +244,7 @@ const userController = {
       let image;
       if (req.file) {
         image = await cloudinary.uploader.upload(req.file.path);
-      }else {
+      } else {
         image = oldData.image;
       }
 
