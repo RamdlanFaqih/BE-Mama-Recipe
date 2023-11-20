@@ -58,19 +58,33 @@ This comprehensive documentation outlines the backend development of the Mama Re
 **API Endpoints**
 
 **Database Schema**
-
-- **Users Table**
-  - id (Primary Key)
-  - username
-  - email
-  - password (Hashed)
-- **Recipes Table**
-  - id (Primary Key)
-  - title
-  - description
-  - ingredients
-  - instructions
-  - userId (Foreign Key referencing Users Table)
+```plaintext
+- Users Table
+  users_id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email_address VARCHAR(255) NOT NULL,
+  phone_number VARCHAR(20),
+  password VARCHAR(255) NOT NULL,
+  level INT,
+  image TEXT NULL
+- My Recipes Table
+   recipes_id SERIAL PRIMARY KEY,
+   food_name VARCHAR(255) NOT NULL,
+   image TEXT,
+   ingredients TEXT NOT NULL,
+   video_title VARCHAR(255),
+   video TEXT NULL,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   users_id INT NOT NULL
+- Liked Recipes Table
+    liked_recipes_id SERIAL PRIMARY KEY,
+    users_id INT NOT NULL,
+    recipes_id INT NOT NULL
+- Saved Recipes Table
+    saved_recipes_id SERIAL PRIMARY KEY,
+    users_id INT NOT NULL,
+    recipes_id INT NOT NULL
+```
 
 **Authentication**
 
@@ -90,8 +104,24 @@ This comprehensive documentation outlines the backend development of the Mama Re
 2. Clone this repository to your local machine: `git clone <repository_URL.git>`
 3. Navigate to the project directory: `cd mama-recipe-backend`
 4. Install project dependencies: `npm install`
-5. Set up your PostgreSQL database connection in `config/database.js`.
+5. Set up your PostgreSQL database connection in `config/db.js`.
 6. Run the server: `node server.js`
+7. Run API Endpoint
+   API Enpoint are available in this postman documentation bellow
+   <div class="postman-run-button"
+data-postman-action="collection/fork"
+data-postman-visibility="public"
+data-postman-var-1="29238474-d72b571b-7db8-4676-a1a4-955688cefd1d"
+data-postman-collection-url="entityId=29238474-d72b571b-7db8-4676-a1a4-955688cefd1d&entityType=collection&workspaceId=40e9bb5c-776f-407a-b507-a57b0d2a6b7b"></div>
+<script type="text/javascript">
+  (function (p,o,s,t,m,a,n) {
+    !p[s] && (p[s] = function () { (p[t] || (p[t] = [])).push(arguments); });
+    !o.getElementById(s+t) && o.getElementsByTagName("head")[0].appendChild((
+      (n = o.createElement("script")),
+      (n.id = s+t), (n.async = 1), (n.src = m), n
+    ));
+  }(window, document, "_pm", "PostmanRunObject", "https://run.pstmn.io/button.js"));
+</script>
 
 **Related Project**
 - [Mama Recipe Frontend](https://github.com/RamdlanFaqih/mama-recipe-redux) - Frontend for Mama Recipe
