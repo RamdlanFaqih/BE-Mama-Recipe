@@ -104,6 +104,7 @@ This comprehensive documentation outlines the backend development of the Mama Re
 5. Set up your PostgreSQL database connection in `config/db.js`.
 6. Run the server: `npm start`
 7. Run API Endpoint
+
    API Enpoint are available in this postman documentation bellow
    
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/29238474-d72b571b-7db8-4676-a1a4-955688cefd1d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29238474-d72b571b-7db8-4676-a1a4-955688cefd1d%26entityType%3Dcollection%26workspaceId%3D40e9bb5c-776f-407a-b507-a57b0d2a6b7b)
