@@ -3,10 +3,9 @@
 
 This comprehensive documentation outlines the backend development of the Mama Recipe website. Built with robust technologies, our backend ensures seamless communication between the frontend and the PostgreSQL database, providing users with a smooth, responsive, and enjoyable cooking experience. Explore the workings of APIs, and learn about the technologies driving Mama Recipe's robust culinary platform. Dive into this guide to uncover the backend magic that powers of interactive cooking community.
 
-**Table of Contents**
+## Table of Contents
 
 - [Project Structure](#project-structure)
-- [API Endpoints](#api-endpoints)
 - [Database Schema](#database-schema)
 - [Authentication](#authentication)
 - [Built With](#built-with)
@@ -15,7 +14,7 @@ This comprehensive documentation outlines the backend development of the Mama Re
 
 ---
 
-**Project Structure**
+## Project Structure
 
 ```plaintext
 |── Mama RecipeBackend
@@ -55,9 +54,7 @@ This comprehensive documentation outlines the backend development of the Mama Re
 
 ```
 
-**API Endpoints**
-
-**Database Schema**
+## Database Schema
 ```plaintext
 - Users Table
   users_id SERIAL PRIMARY KEY,
@@ -86,19 +83,19 @@ This comprehensive documentation outlines the backend development of the Mama Re
     recipes_id INT NOT NULL
 ```
 
-**Authentication**
+## Authentication
 
 - JSON Web Tokens (JWT) are used for user authentication.
 - User passwords are hashed before storing them in the PostgreSQL database.
 
-**Built With**
+## Built With
 
 - **Node.js**: Backend runtime environment.
 - **Express.js**: Web application framework for Node.js.
 - **PostgreSQL**: Relational database management system for data storage.
 - **JWT**: JSON Web Tokens for user authentication.
 
-**Usage**
+## Usage
 
 1. Ensure Node.js and PostgreSQL are installed on your system.
 2. Clone this repository to your local machine: `git clone <repository_URL.git>`
@@ -111,7 +108,7 @@ This comprehensive documentation outlines the backend development of the Mama Re
    
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/29238474-d72b571b-7db8-4676-a1a4-955688cefd1d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29238474-d72b571b-7db8-4676-a1a4-955688cefd1d%26entityType%3Dcollection%26workspaceId%3D40e9bb5c-776f-407a-b507-a57b0d2a6b7b)
 
-**Related Project**
+## Related Project
 - [Mama Recipe Frontend](https://github.com/RamdlanFaqih/mama-recipe-redux) - Frontend for Mama Recipe
 
 
