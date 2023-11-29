@@ -1,23 +1,28 @@
 const db = require("../config/db");
 
 const foodModel = {
-  selectAll: (search, sort) => {
+  selectAll: (search, sort, limit, offset) => {
     let sortDirection = sort === "DESC" ? "DESC" : "ASC";
-    let cleanSearch = search.replace(/[^a-zA-Z0-9 ]/g, " ");
+    let cleanSearch = search.replace(/[^a-zA-Z0-9 ]/g, " ").trim();
     let searchTerm = `%${cleanSearch}%`;
+
     return new Promise((resolve, reject) => {
-      db.query( `
+      db.query(
+        `
       SELECT * FROM food_recipes 
-      WHERE LOWER (food_name) ILIKE '%${searchTerm}%' OR 
-      LOWER (food_name) ILIKE '% ${searchTerm}%' OR 
-      LOWER (food_name) ILIKE '%${searchTerm} %'
+      WHERE LOWER(food_name) ILIKE '%${searchTerm}%' OR 
+            LOWER(food_name) ILIKE '% ${searchTerm}%' OR 
+            LOWER(food_name) ILIKE '%${searchTerm} %'
       ORDER BY food_name ${sortDirection}
-    `, (err, res) => {
-        if (err) {
-          reject(err);
+      LIMIT ${limit} OFFSET ${offset}
+    `,
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
         }
-        resolve(res);
-      });
+      );
     });
   },
   selectPaginate: () => {
@@ -87,7 +92,15 @@ const foodModel = {
       );
     });
   },
-  insertWithCategory: (food_name, image, ingredients, video_title, video, food_category, users_id) => {
+  insertWithCategory: (
+    food_name,
+    image,
+    ingredients,
+    video_title,
+    video,
+    food_category,
+    users_id
+  ) => {
     return new Promise((resolve, reject) => {
       db.query(
         `INSERT INTO food_recipes(food_name, image, ingredients, video_title, video, food_category, users_id) VALUES 

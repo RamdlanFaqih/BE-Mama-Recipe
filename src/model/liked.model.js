@@ -29,10 +29,15 @@ const likedModel = {
   selectLikedByUsers_ID: (users_id) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `SELECT my_recipes.food_name, my_recipes.image, liked_recipes.recipes_id
-        FROM liked_recipes
-        JOIN my_recipes ON liked_recipes.recipes_id = my_recipes.recipes_id
-        WHERE liked_recipes.users_id = ${users_id}`,
+        `SELECT 
+          my_recipes.food_name,
+          my_recipes.image AS recipe_image,
+          users.name AS user_name,
+          liked_recipes.recipes_id
+          FROM liked_recipes
+          JOIN my_recipes ON liked_recipes.recipes_id = my_recipes.recipes_id
+          JOIN users ON liked_recipes.users_id = users.users_id
+          WHERE liked_recipes.users_id = ${users_id}`,
         (err, result) => {
           if (err) {
             reject(err);

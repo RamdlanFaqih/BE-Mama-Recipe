@@ -29,10 +29,14 @@ const savedModel = {
   selectSavedByUsers_ID: (users_id) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `SELECT my_recipes.food_name, my_recipes.image, saved_recipes.recipes_id
-         FROM saved_recipes
-         JOIN my_recipes ON saved_recipes.recipes_id = my_recipes.recipes_id
-         WHERE saved_recipes.users_id = ${users_id}`,
+        `SELECT 
+          my_recipes.food_name, 
+          my_recipes.image AS recipe_image,
+          users.name AS user_name,
+          saved_recipes.recipes_id
+          FROM saved_recipes
+          JOIN my_recipes ON saved_recipes.recipes_id = my_recipes.recipes_id
+          JOIN users ON saved_recipes.users_id = users.users_id WHERE saved_recipes.users_id = ${users_id}`,
         (err, result) => {
           if (err) {
             reject(err);

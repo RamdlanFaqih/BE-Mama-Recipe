@@ -1,14 +1,14 @@
 const db = require("../config/db");
 
 const recipesModel = {
-selectAll: (search, sort, limit, offset) => {
-  let sortDirection = sort === "DESC" ? "DESC" : "ASC";
-  let cleanSearch = search.replace(/[^a-zA-Z0-9 ]/g, " ").trim();
-  let searchTerm = `%${cleanSearch}%`;
+  selectAll: (search, sort, limit, offset) => {
+    let sortDirection = sort === "DESC" ? "DESC" : "ASC";
+    let cleanSearch = search.replace(/[^a-zA-Z0-9 ]/g, " ").trim();
+    let searchTerm = `%${cleanSearch}%`;
 
-  return new Promise((resolve, reject) => {
-    db.query(
-      `
+    return new Promise((resolve, reject) => {
+      db.query(
+        `
       SELECT * FROM my_recipes 
       WHERE LOWER(food_name) ILIKE '%${searchTerm}%' OR 
             LOWER(food_name) ILIKE '% ${searchTerm}%' OR 
@@ -16,28 +16,26 @@ selectAll: (search, sort, limit, offset) => {
       ORDER BY food_name ${sortDirection}
       LIMIT ${limit} OFFSET ${offset}
     `,
-      (err, res) => {
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        }
+      );
+    });
+  },
+
+  selectPaginate: () => {
+    return new Promise((resolve, reject) => {
+      db.query("SELECT COUNT(*) AS total FROM my_recipes", (err, res) => {
         if (err) {
           reject(err);
         }
         resolve(res);
-      }
-    );
-  });
-},
-
-selectPaginate: () => {
-  return new Promise((resolve, reject) => {
-    db.query("SELECT COUNT(*) AS total FROM my_recipes", (err, res) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(res);
+      });
     });
-  });
-},
-
-
+  },
 
   pagination: (limit, offset) => {
     return new Promise((resolve, reject) => {
